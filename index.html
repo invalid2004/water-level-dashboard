@@ -28,7 +28,6 @@
         }
     </script>
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-resources/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -40,16 +39,6 @@
         body {
             font-family: 'Sarabun', sans-serif;
             background-color: #f1f5f9;
-        }
-        .water-animation {
-            background: linear-gradient(-45deg, #0284c7, #0284c7, #0d9488, #0369a1);
-            background-size: 400% 400%;
-            animation: gradient 12s ease infinite;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
     </style>
 </head>
@@ -71,8 +60,8 @@
                 </div>
                 <div class="flex items-center space-x-3 self-end md:self-auto text-xs sm:text-sm">
                     <div class="bg-slate-800/80 px-3 py-2 rounded-lg border border-slate-700 flex items-center space-x-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span id="api-status">สถานะข้อมูล: จำลองข้อมูลเรียลไทม์</span>
+                        <span id="status-ping" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span id="api-status">สถานะข้อมูล: กำลังเชื่อมต่อข้อมูลเรียลไทม์...</span>
                     </div>
                     <button id="toggle-sim-btn" onclick="toggleSimMode()" class="bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-2 rounded-lg text-xs transition flex items-center space-x-1 shadow">
                         <i class="fa-solid fa-arrows-rotate"></i>
@@ -117,7 +106,7 @@
                         <div>
                             <span class="text-xs text-slate-500 font-semibold block uppercase">ระดับน้ำปัจจุบัน</span>
                             <div class="flex items-baseline space-x-2">
-                                <span id="y20-level" class="text-3xl font-extrabold text-blue-900">4.35</span>
+                                <span id="y20-level" class="text-3xl font-extrabold text-blue-900">--.--</span>
                                 <span class="text-sm font-medium text-slate-600">เมตร</span>
                             </div>
                         </div>
@@ -135,7 +124,7 @@
                             <span class="text-red-600 font-medium">วิกฤต (8.10 ม.)</span>
                         </div>
                         <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
-                            <div id="y20-bar" class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: 53%;"></div>
+                            <div id="y20-bar" class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: 0%;"></div>
                         </div>
                     </div>
 
@@ -152,7 +141,7 @@
                 </div>
                 <div class="bg-slate-50 px-5 py-3 border-t border-slate-100 flex justify-between items-center text-xs text-slate-500">
                     <span><i class="fa-solid fa-droplet text-blue-500"></i> อัตราการไหล: <strong id="y20-flow" class="text-slate-700">320.00</strong> ลบ.ม./วินาที</span>
-                    <span id="y20-status-badge" class="px-2 py-1 rounded-full font-semibold bg-emerald-100 text-emerald-800">ปกติ</span>
+                    <span id="y20-status-badge" class="px-2 py-1 rounded-full font-semibold bg-slate-100 text-slate-800">กำลังโหลด</span>
                 </div>
             </div>
 
@@ -174,7 +163,7 @@
                         <div>
                             <span class="text-xs text-slate-500 font-semibold block uppercase">ระดับน้ำปัจจุบัน</span>
                             <div class="flex items-baseline space-x-2">
-                                <span id="y1c-level" class="text-3xl font-extrabold text-teal-900">3.80</span>
+                                <span id="y1c-level" class="text-3xl font-extrabold text-teal-900">--.--</span>
                                 <span class="text-sm font-medium text-slate-600">เมตร</span>
                             </div>
                         </div>
@@ -192,7 +181,7 @@
                             <span class="text-red-600 font-medium">วิกฤต (8.20 ม.)</span>
                         </div>
                         <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
-                            <div id="y1c-bar" class="bg-teal-600 h-3 rounded-full transition-all duration-500" style="width: 46%;"></div>
+                            <div id="y1c-bar" class="bg-teal-600 h-3 rounded-full transition-all duration-500" style="width: 0%;"></div>
                         </div>
                     </div>
 
@@ -209,7 +198,7 @@
                 </div>
                 <div class="bg-slate-50 px-5 py-3 border-t border-slate-100 flex justify-between items-center text-xs text-slate-500">
                     <span><i class="fa-solid fa-droplet text-teal-500"></i> อัตราการไหล: <strong id="y1c-flow" class="text-slate-700">285.00</strong> ลบ.ม./วินาที</span>
-                    <span id="y1c-status-badge" class="px-2 py-1 rounded-full font-semibold bg-emerald-100 text-emerald-800">ปกติ</span>
+                    <span id="y1c-status-badge" class="px-2 py-1 rounded-full font-semibold bg-slate-100 text-slate-800">กำลังโหลด</span>
                 </div>
             </div>
 
@@ -239,7 +228,7 @@
                 </div>
                 <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex justify-between">
                     <span><i class="fa-solid fa-circle-info text-blue-600"></i> เส้นประสีแดงแสดงระดับตลิ่งวิกฤตของสถานี Y.20 (8.10ม.) และ Y.1C (8.20ม.)</span>
-                    <span>อัปเดตอัตโนมัติทุก 15 นาที</span>
+                    <span>อัปเดตอัตโนมัติทุก 1 นาที</span>
                 </div>
             </div>
 
@@ -337,7 +326,7 @@
                     <span>ตัวอย่างข้อความแจ้งเตือน:</span>
                 </div>
                 <div class="bg-white p-2.5 rounded border border-slate-200 text-slate-700 font-mono text-[11px] leading-relaxed">
-                    🚨 [แจ้งเตือนด่วน อบต./เทศบาลป่าแมต]<br>
+                    🚨 [แจ้งเตือนด่วน เทศบาลตำบลป่าแมต]<br>
                     ระดับน้ำสถานี Y.20 (ห้วยสัก) แตะ <strong class="text-red-600">7.20 ม.</strong> (เข้าเกณฑ์เฝ้าระวัง)<br>
                     คาดว่ามวลน้ำจะถึงป่าแมตภายใน 16 ชม.<br>
                     ขอให้ประชาชน ม.1, ม.4 ยกของขึ้นที่สูง
@@ -352,37 +341,41 @@
 
     <!-- Script Logic -->
     <script>
-        // Default Configuration and Data
-        let isSimulating = true;
+        let isSimulating = false; // เริ่มต้นดึงข้อมูลจริงทันที
         let chartInstance = null;
         let mapInstance = null;
 
+        // URL Google Apps Script Backend
+        const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzNIdcMawAkblcMwlbDHJzQpiwJk8_8FX3CJVOCXM4d7CWs0XHxkyuORS62JF4fTasaTw/exec";
+
         const stationsData = [
-            { id: 'Y.20', name: 'บ้านห้วยสัก', amphoe: 'อ.สอง', lat: 18.452, lng: 100.183, bank: 8.10, level: 4.35, flow: 320.0, role: 'ต้นน้ำ/แจ้งเตือนล่วงหน้า 15-20 ชม.' },
-            { id: 'Y.1C', name: 'บ้านน้ำโค้ง', amphoe: 'อ.เมืองแพร่ (ป่าแมต)', lat: 18.128, lng: 100.125, bank: 8.20, level: 3.80, flow: 285.0, role: 'สถานีหลักเฝ้าระวังป่าแมต' },
+            { id: 'Y.20', name: 'บ้านห้วยสัก', amphoe: 'อ.สอง', lat: 18.452, lng: 100.183, bank: 8.10, level: 4.86, flow: 320.0, role: 'ต้นน้ำ/แจ้งเตือนล่วงหน้า 15-20 ชม.' },
+            { id: 'Y.1C', name: 'บ้านน้ำโค้ง', amphoe: 'อ.เมืองแพร่ (ป่าแมต)', lat: 18.128, lng: 100.125, bank: 8.20, level: 4.21, flow: 285.0, role: 'สถานีหลักเฝ้าระวังป่าแมต' },
             { id: 'Y.37', name: 'บ้านวังยาว', amphoe: 'อ.สอง', lat: 18.350, lng: 100.150, bank: 9.50, level: 3.20, flow: 210.0, role: 'สถานีกลางน้ำ' },
             { id: 'Y.6', name: 'บ้านวังกวาง', amphoe: 'อ.สูงเม่น', lat: 18.050, lng: 100.100, bank: 9.00, level: 3.10, flow: 240.0, role: 'สถานีท้ายน้ำ' }
         ];
 
-        // 24-Hour Trend Data Simulation
         const timeLabels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
-        let y20Trends = [3.8, 3.9, 4.1, 4.2, 4.35, 4.3, 4.25, 4.35];
-        let y1cTrends = [3.2, 3.3, 3.4, 3.6, 3.7, 3.8, 3.85, 3.80];
+        let y20Trends = [3.8, 3.9, 4.1, 4.2, 4.35, 4.5, 4.7, 4.86];
+        let y1cTrends = [3.2, 3.3, 3.4, 3.6, 3.7, 3.9, 4.0, 4.21];
 
-        // Init App
         window.onload = function() {
             updateTimestamp();
             initChart();
             initMap();
             renderTable();
-            updateUI();
 
-            // Auto refresh simulation every 10 sec
+            // ดึงข้อมูลจริงจาก GAS ทันทีเมื่อเปิดหน้าเว็บ
+            fetchRealDataFromGAS();
+
+            // ตั้งเวลาเช็กข้อมูลทุกๆ 1 นาที
             setInterval(() => {
                 if(isSimulating) {
                     simulateDataUpdate();
+                } else {
+                    fetchRealDataFromGAS();
                 }
-            }, 10000);
+            }, 60000);
         };
 
         function updateTimestamp() {
@@ -390,27 +383,73 @@
             document.getElementById('update-timestamp').innerText = `อัปเดต: ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} น.`;
         }
 
+        async function fetchRealDataFromGAS() {
+            try {
+                const response = await fetch(GAS_WEBAPP_URL);
+                const result = await response.json();
+                
+                if (result && result.Y20 && result.Y1C) {
+                    const y20 = stationsData.find(s => s.id === 'Y.20');
+                    if (y20) y20.level = result.Y20.level;
+                    
+                    const y1c = stationsData.find(s => s.id === 'Y.1C');
+                    if (y1c) y1c.level = result.Y1C.level;
+                    
+                    document.getElementById('api-status').innerText = "สถานะข้อมูล: เชื่อมต่อ API เรียลไทม์แล้ว";
+                    document.getElementById('status-ping').className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping";
+                    updateTimestamp();
+                    updateUI();
+                }
+            } catch (error) {
+                console.error("ไม่สามารถดึงข้อมูลจาก GAS ได้:", error);
+                document.getElementById('api-status').innerText = "สถานะข้อมูล: โหมดสำรอง (เชื่อมต่อ API ไม่สำเร็จ)";
+                document.getElementById('status-ping').className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+                updateUI();
+            }
+        }
+
+        function toggleSimMode() {
+            isSimulating = !isSimulating;
+            const statusText = document.getElementById('api-status');
+            const btnText = document.getElementById('sim-btn-text');
+            
+            if (isSimulating) {
+                btnText.innerText = "สลับเป็นโหมดเรียลไทม์";
+                statusText.innerText = "สถานะข้อมูล: จำลองข้อมูลเรียลไทม์";
+                simulateDataUpdate();
+            } else {
+                btnText.innerText = "สลับเป็นโหมดจำลอง";
+                statusText.innerText = "สถานะข้อมูล: กำลังดึงข้อมูลจาก GAS...";
+                fetchRealDataFromGAS();
+            }
+        }
+
+        function simulateDataUpdate() {
+            stationsData.forEach(s => {
+                const delta = (Math.random() * 0.1) - 0.05;
+                s.level = Math.max(1.0, s.level + delta);
+            });
+            updateTimestamp();
+            updateUI();
+        }
+
         function updateUI() {
             const y20 = stationsData.find(s => s.id === 'Y.20');
             const y1c = stationsData.find(s => s.id === 'Y.1C');
 
-            // Y.20 Updates
             document.getElementById('y20-level').innerText = y20.level.toFixed(2);
             document.getElementById('y20-flow').innerText = y20.flow.toFixed(2);
             const y20Pct = Math.min(100, (y20.level / y20.bank) * 100);
             document.getElementById('y20-bar').style.width = `${y20Pct}%`;
 
-            // Y.1C Updates
             document.getElementById('y1c-level').innerText = y1c.level.toFixed(2);
             document.getElementById('y1c-flow').innerText = y1c.flow.toFixed(2);
             const y1cPct = Math.min(100, (y1c.level / y1c.bank) * 100);
             document.getElementById('y1c-bar').style.width = `${y1cPct}%`;
 
-            // Status Badges
             updateStatusBadge('y20-status-badge', y20.level, y20.bank);
             updateStatusBadge('y1c-status-badge', y1c.level, y1c.bank);
 
-            // Banner Warning Status
             const banner = document.getElementById('alert-banner');
             const title = document.getElementById('alert-banner-title');
             const desc = document.getElementById('alert-banner-desc');
@@ -527,9 +566,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
                         y: {
                             min: 0,
@@ -542,14 +579,12 @@
         }
 
         function initMap() {
-            // Center map at Pa Maet / Phrae
             mapInstance = L.map('map').setView([18.140, 100.135], 10);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap'
             }).addTo(mapInstance);
 
-            // Add Station Markers
             stationsData.forEach(s => {
                 const marker = L.marker([s.lat, s.lng]).addTo(mapInstance);
                 marker.bindPopup(`
@@ -561,7 +596,6 @@
                 `);
             });
 
-            // Highlight Pa Maet Subdistrict Center
             const paMaetCircle = L.circle([18.138, 100.120], {
                 color: '#d97706',
                 fillColor: '#f59e0b',
@@ -571,80 +605,18 @@
             paMaetCircle.bindPopup("<b>เขตเทศบาลตำบลป่าแมต</b><br>พื้นที่เฝ้าระวังน้ำล้นตลิ่งแม่น้ำยม");
         }
 
-        function simulateDataUpdate() {
-            // Random slight level changes
-            stationsData[0].level = Math.max(2.0, Math.min(8.5, stationsData[0].level + (Math.random() - 0.48) * 0.2));
-            stationsData[1].level = Math.max(1.8, Math.min(8.6, stationsData[1].level + (Math.random() - 0.48) * 0.15));
-            
-            y20Trends.shift();
-            y20Trends.push(stationsData[0].level);
-            
-            y1cTrends.shift();
-            y1cTrends.push(stationsData[1].level);
-
-            if(chartInstance) {
-                chartInstance.data.datasets[0].data = y20Trends;
-                chartInstance.data.datasets[1].data = y1cTrends;
-                chartInstance.update();
-            }
-
-            updateTimestamp();
-            updateUI();
-        }
-
-        function toggleSimMode() {
-            isSimulating = !isSimulating;
-            const btnText = document.getElementById('sim-btn-text');
-            const statusText = document.getElementById('api-status');
-
-            if(isSimulating) {
-                btnText.innerText = "โหมดจำลอง";
-                statusText.innerText = "สถานะข้อมูล: จำลองข้อมูลเรียลไทม์";
-            } else {
-                btnText.innerText = "โหมดดึงข้อมูล API";
-                statusText.innerText = "สถานะข้อมูล: Thaiwater API (ดึงข้อมูลจริง)";
-                fetchRealThaiWaterData();
-            }
-        }
-
-        async function fetchRealThaiWaterData() {
-            try {
-                // Fetch from ThaiWater public API endpoint
-                const res = await fetch('https://api-v3.thaiwater.net/api/v1/thaiwater30/public/waterlevel_load');
-                const data = await res.json();
-                
-                // Parse Y.20 and Y.1C if available
-                if(data && data.data) {
-                    const y20Data = data.data.find(d => d.station && d.station.tele_station_old_code === 'Y.20');
-                    const y1cData = data.data.find(d => d.station && d.station.tele_station_old_code === 'Y.1C');
-
-                    if(y20Data) {
-                        stationsData[0].level = y20Data.waterlevel_m || stationsData[0].level;
-                        stationsData[0].flow = y20Data.discharge || stationsData[0].flow;
-                    }
-                    if(y1cData) {
-                        stationsData[1].level = y1cData.waterlevel_m || stationsData[1].level;
-                        stationsData[1].flow = y1cData.discharge || stationsData[1].flow;
-                    }
-                    updateUI();
-                }
-            } catch(e) {
-                console.log("Fallback to local simulation - API unreachable", e);
-            }
-        }
-
         function openLineModal() {
             document.getElementById('line-modal').classList.remove('hidden');
             document.getElementById('line-modal').classList.add('flex');
         }
 
         function closeLineModal() {
-            document.getElementById('line-modal').classList.add('hidden');
             document.getElementById('line-modal').classList.remove('flex');
+            document.getElementById('line-modal').classList.add('hidden');
         }
 
         function simulateLineSubscribe() {
-            alert("ขอบคุณสำหรับการลงทะเบียน! ระบบจะส่งการแจ้งเตือนระดับน้ำวิกฤตเทศบาลตำบลป่าแมตผ่าน LINE OA");
+            alert("จำลองการเพิ่มเพื่อนสำเร็จ! คุณจะได้รับข้อความแจ้งเตือนระดับน้ำวิกฤตผ่าน LINE OA เทศบาลตำบลป่าแมต");
             closeLineModal();
         }
     </script>
